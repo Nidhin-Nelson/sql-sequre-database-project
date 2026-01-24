@@ -1,0 +1,24 @@
+# SQL Server files
+*.bak
+*.mdf
+*.ldf
+*.log
+
+# Data files
+*.csv
+*.xlsx
+*.xls
+data/
+
+# Credentials
+.env
+*credentials*
+*connection*
+
+# Temp files
+*.tmp
+temp/
+
+# OS files
+.DS_Store
+Thumbs.db
