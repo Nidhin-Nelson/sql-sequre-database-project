@@ -46,11 +46,6 @@ GO
 CREATE SCHEMA analytics;
 GO
 
-CREATE SCHEMA semantic;
-GO
-
 CREATE SCHEMA security;
 GO
 
-CREATE SCHEMA audit;
-GO
