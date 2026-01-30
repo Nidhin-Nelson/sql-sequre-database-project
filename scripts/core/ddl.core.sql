@@ -87,7 +87,7 @@ CREATE TABLE core.hcm_consultants (
     last_name                   VARCHAR(100),
     email                       VARCHAR(200),    
     job_title                   VARCHAR(100),
-    security_clearance_level    INT,         
+    security_clearance_level    NVARCHAR(70),         
     hire_date                   DATE,
     office_location             VARCHAR(50),
     billable_rate               DECIMAL(10,2)    
