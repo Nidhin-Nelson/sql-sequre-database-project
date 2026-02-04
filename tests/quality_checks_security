@@ -1,0 +1,95 @@
+/*
+------------------------------------------------------------------------
+Security Testing Script
+------------------------------------------------------------------------
+Purpose:
+- Tests Row-Level Security (RLS) policies on core tables
+- Tests security views for each role (Client/Consultant/Manager/Executive)
+- Verifies users can only access their authorized data
+
+Usage:
+- Run entire script as admin/dbo
+- Reverts back to admin after each test
+
+Expected Results:
+- Clients see only their own data (filtered by client_id)
+- Consultants see only their own assignments (filtered by consultant_id)
+- Managers see all data
+- Executives see all data
+
+*/
+
+-- Test as CLI-5001 (Client)
+EXECUTE AS USER = 'CLI-5001';
+SELECT USER_NAME() AS logged_in_user;
+SELECT * FROM security.vw_client_portal;
+SELECT * FROM core.crm_clients;
+SELECT * FROM core.crm_projects;
+SELECT * FROM core.crm_invoices;
+REVERT;
+
+-- Test as CLI-5002 (Client)
+EXECUTE AS USER = 'CLI-5002';
+SELECT USER_NAME() AS logged_in_user;
+SELECT * FROM security.vw_client_portal;
+SELECT * FROM core.crm_clients;
+REVERT;
+
+-- Test as CON-1008 (Consultant)
+EXECUTE AS USER = 'CON-1008';
+SELECT USER_NAME() AS logged_in_user;
+SELECT * FROM security.vw_consultant_dashboard;
+SELECT * FROM core.hcm_consultants;
+SELECT * FROM core.crm_project_assignments;
+SELECT * FROM core.hcm_timesheets;
+REVERT;
+
+-- Test as CON-1009 (Consultant)
+EXECUTE AS USER = 'CON-1009';
+SELECT USER_NAME() AS logged_in_user;
+SELECT * FROM security.vw_consultant_dashboard;
+SELECT * FROM core.crm_project_assignments;
+REVERT;
+
+-- Test as CON-1003 (Manager)
+EXECUTE AS USER = 'CON-1003';
+SELECT USER_NAME() AS logged_in_user;
+SELECT * FROM security.vw_manager_dashboard;
+SELECT * FROM core.crm_clients;
+SELECT * FROM core.crm_projects;
+SELECT * FROM analytics.dim_clients;
+REVERT;
+
+-- Test as CON-1013 (Executive)
+EXECUTE AS USER = 'CON-1013';
+SELECT USER_NAME() AS logged_in_user;
+SELECT * FROM security.vw_executive_dashboard;
+SELECT * FROM core.crm_clients;
+SELECT * FROM core.crm_projects;
+SELECT * FROM analytics.dim_clients;
+SELECT * FROM analytics.dim_consultants;
+REVERT;
+
+-- Count tests
+EXECUTE AS USER = 'CLI-5001';
+SELECT COUNT(*) AS my_clients FROM core.crm_clients;
+SELECT COUNT(*) AS my_projects FROM core.crm_projects;
+SELECT COUNT(*) AS my_invoices FROM core.crm_invoices;
+REVERT;
+
+EXECUTE AS USER = 'CON-1008';
+SELECT COUNT(*) AS my_assignments FROM core.crm_project_assignments;
+SELECT COUNT(*) AS my_timesheets FROM core.hcm_timesheets;
+SELECT COUNT(*) AS all_consultants FROM core.hcm_consultants;
+REVERT;
+
+EXECUTE AS USER = 'CON-1003';
+SELECT COUNT(*) AS all_clients FROM core.crm_clients;
+SELECT COUNT(*) AS all_projects FROM core.crm_projects;
+REVERT;
+
+EXECUTE AS USER = 'CON-1013';
+SELECT COUNT(*) AS all_clients FROM core.crm_clients;
+SELECT COUNT(*) AS all_projects FROM core.crm_projects;
+SELECT COUNT(*) AS all_consultants FROM core.hcm_consultants;
+REVERT;
