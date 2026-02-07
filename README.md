@@ -17,41 +17,6 @@ This project demonstrates:
 
 ---
 
-## 🏗️ Architecture Overview
-
-### Security Architecture
-
-```
-┌─────────────────────────────────────────────────────────────┐
-│                  SECURITY LAYER PROTECTION                  │
-├─────────────────────────────────────────────────────────────┤
-│                                                             │
-│  ┌──────────────┐   ┌──────────────┐   ┌──────────────┐   │
-│  │   CLIENTS    │   │ CONSULTANTS  │   │   MANAGERS   │   │
-│  │              │   │              │   │              │   │
-│  │ • Own data   │   │ • Own data   │   │ • All data   │   │
-│  │   only       │   │   only       │   │              │   │
-│  └──────┬───────┘   └──────┬───────┘   └──────┬───────┘   │
-│         │                  │                  │            │
-│         ▼                  ▼                  ▼            │
-│  ┌──────────────────────────────────────────────────────┐  │
-│  │          ROW-LEVEL SECURITY FILTERING                │  │
-│  │                                                      │  │
-│  │  Automatic WHERE clause applied to ALL queries      │  │
-│  └──────────────────────────────────────────────────────┘  │
-│         │                  │                  │            │
-│         ▼                  ▼                  ▼            │
-│  ┌──────────────────────────────────────────────────────┐  │
-│  │              PROTECTED CORE TABLES                   │  │
-│  │  • crm_clients    • crm_invoices                     │  │
-│  │  • crm_projects   • hcm_consultants                  │  │
-│  └──────────────────────────────────────────────────────┘  │
-│                                                             │
-└─────────────────────────────────────────────────────────────┘
-```
-
----
-
 ## 🔐 Security Features
 
 ### Multi-Layer Security Model
@@ -63,7 +28,8 @@ This project demonstrates:
 | **Column-Level Security** | DENY permissions on columns | Hides sensitive fields (billable rates, contract values) |
 | **Security Views** | Filtered views per role | Pre-built queries for each user type |
 
-### User Roles & Access Matrix
+
+### User Roles & Access
 
 | Role | Can Access | Cannot Access | Data Scope |
 |------|-----------|---------------|------------|
@@ -72,17 +38,6 @@ This project demonstrates:
 | **Manager** | All projects, team data, analytics | N/A | Full access |
 | **Executive** | Everything (unfiltered) | N/A | Full access |
 
-### How RLS Works
-
-```sql
--- Client C001 queries the invoices table
-SELECT * FROM core.crm_invoices;
-
--- SQL Server automatically applies RLS filter:
--- WHERE client_id = 'C001'
-
--- Result: Only sees their own invoices (not C002, C003, etc.)
-```
 
 **Key Benefits:**
 - ✅ Security enforced at database level (cannot be bypassed)
@@ -240,19 +195,6 @@ This data warehouse enables:
 | **IDE** | SQL Server Management Studio (SSMS) |
 | **Version Control** | Git / GitHub |
 | **Documentation** | Markdown |
-
----
-
-## 🎓 Learning Outcomes
-
-Through this project, I gained expertise in:
-
-✅ **Enterprise Data Warehouse Design** - Multi-layer architecture implementation  
-✅ **Advanced Security** - Row-level and role-based security  
-✅ **ETL Development** - Building robust data pipelines  
-✅ **SQL Mastery** - Complex queries and optimization  
-✅ **Data Modeling** - Star schema for analytics  
-✅ **Best Practices** - Industry standards and documentation  
 
 ---
 
