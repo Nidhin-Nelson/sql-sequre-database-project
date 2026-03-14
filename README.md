@@ -1,6 +1,6 @@
 # Data Warehouse with Row-Level Security
 
-A complete data warehouse implementation featuring **multi-layered security**, **ETL pipelines**, and **analytics-ready data models** built with SQL Server.
+A complete data warehouse implementation featuring **Multi-layered security**, **ETL pipelines**, and **Analytics ready data models** built with SQL Server.
 
 ---
 
